@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>40C3 Visual Generator · Model Citizens</title>
+<meta name="description" content="Make 40C3 “Model Citizens” visuals in your browser: talk cards, announcements, posters, quotes, badges and cube logos, exported as PNG, JPG, GIF or video. Nothing leaves your computer.">
+<meta name="theme-color" content="#001300">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="40C3 Visual Generator">
+<meta property="og:description" content="Make 40C3 “Model Citizens” visuals with any text: PNG, GIF, video and cube logos.">
+<meta property="og:image" content="og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="assets/app.css?v=__V__">
+</head>
+<body>
+<a class="skip" href="#cv">Skip to preview</a>
+<header>
+  <img id="hdrLogo" src="favicon.svg" alt="" width="34" height="44">
+  <div><h1>40C3 Visual Generator</h1><p>Model Citizens · type your text, pick a style, export PNG / GIF / video</p></div>
+</header>
+
+<main class="view">
+<aside aria-label="Settings">
+  <details open id="secTemplate"><summary>Template</summary>
+    <div class="seg" id="tpl" role="group" aria-label="Template">
+      <button type="button" data-v="talk" class="on">Talk</button>
+      <button type="button" data-v="banner">Announcement</button>
+      <button type="button" data-v="poster">Poster</button>
+      <button type="button" data-v="quote">Quote</button>
+      <button type="button" data-v="badge">Badge</button>
+      <button type="button" data-v="logo">Logo</button>
+    </div>
+    <label for="format">Format</label>
+    <select id="format">
+      <option value="1080x1080">Square · 1080×1080 (Instagram, Mastodon)</option>
+      <option value="1080x1350">Portrait · 1080×1350</option>
+      <option value="1080x1920">Story · 1080×1920</option>
+      <option value="1920x1080" selected>Landscape · 1920×1080 (slide, screen)</option>
+      <option value="1200x675">Social post · 1200×675</option>
+      <option value="1500x500">Banner · 1500×500 (header)</option>
+      <option value="2480x3508">A4 poster · 2480×3508 (300 dpi)</option>
+      <option value="1063x1535">Badge · 1063×1535 (9×13 cm)</option>
+      <option value="fit">Fit to logo (Logo template)</option>
+      <option value="custom">Custom size…</option>
+    </select>
+    <div class="row" id="customSize" hidden>
+      <div><label for="cw">Width (px)</label><input type="number" id="cw" value="1600" min="100" max="6000"></div>
+      <div><label for="ch">Height (px)</label><input type="number" id="ch" value="900" min="100" max="6000"></div>
+    </div>
+  </details>
+
+  <details id="secLogoMaker"><summary>Logo maker</summary>
+    <div class="hint" id="lgHint">Build a cube logo in the 40C3 style. Choose the “Logo” template to export it alone, or pick “My logo” in the Logo section to use it on any visual.</div>
+    <div class="row">
+      <div><label for="lgLeft">Left face</label><input type="text" id="lgLeft" value="40" maxlength="4"></div>
+      <div><label for="lgRight">Right face</label><input type="text" id="lgRight" value="C3" maxlength="4"></div>
+    </div>
+    <div class="row">
+      <div><label for="lgFont">Letter font</label><select id="lgFont"><option value="jersey">Jersey 10 (pixel)</option><option value="hackb">Hack Bold</option></select></div>
+      <div><label for="lgStyle">Letter style</label><select id="lgStyle"><option value="solid">Solid letters</option><option value="stencil">Stencil (cut-out)</option><option value="outline">Block + outline</option></select></div>
+    </div>
+    <label for="lgGap">Gap between blocks</label><input type="range" id="lgGap" min="0" max="80" value="40">
+    <div class="row">
+      <div><label for="lgEye">Top symbol</label>
+        <select id="lgEye"><option value="eye">Eye (original)</option><option value="pupil">Eye with pupil</option><option value="dot">Small dot</option><option value="diamond">Diamond</option><option value="star">Star</option><option value="x">Cross</option><option value="heart">Heart</option><option value="none">Solid</option></select></div>
+      <div><label for="lgRays">Rays</label>
+        <select id="lgRays"><option value="3">3 rays</option><option value="5">5 rays</option><option value="1">1 ray</option><option value="0">No rays</option></select></div>
+    </div>
+    <label for="lgCap">Caption</label>
+    <textarea id="lgCap" rows="2">MODEL_
+CITIZENS</textarea>
+    <div class="row">
+      <div><label for="lgLayout">Caption placement</label><select id="lgLayout"><option value="right">Right of the cube</option><option value="below">Below the cube</option><option value="none">No caption</option></select></div>
+      <div><label for="lgCapSize">Caption size</label><input type="range" id="lgCapSize" min="40" max="180" value="100"></div>
+    </div>
+    <div class="row">
+      <div><label for="lgColSrc">Logo colors</label><select id="lgColSrc"><option value="ink">Palette: text color</option><option value="acc">Palette: accent cube</option><option value="custom">Custom colors</option></select></div>
+      <div><label for="lgSize">“Fit to logo” height</label><select id="lgSize"><option value="256">256 px</option><option value="512">512 px</option><option value="1024" selected>1024 px</option><option value="2048">2048 px</option><option value="4096">4096 px</option></select></div>
+    </div>
+    <div class="colors" id="lgCustom">
+      <label>Cube <input type="color" id="lgCol" value="#ebedf0"></label>
+      <label>Caption <input type="color" id="lgCapCol" value="#ebedf0"></label>
+    </div>
+    <label class="check"><input type="checkbox" id="lgTransp" checked> Transparent background (Logo template)</label>
+  </details>
+
+  <details open id="secText"><summary>Text</summary>
+    <label for="kicker">Kicker (small line above the title)</label>
+    <input type="text" id="kicker" value="">
+    <label for="title">Title</label>
+    <textarea id="title" rows="2">This is an Awesome Talk: See You Late December</textarea>
+    <label for="subtitle">Subtitle (speakers, date…)</label>
+    <input type="text" id="subtitle" value="Citizen A and Citizen B">
+    <label for="body">Body text</label>
+    <textarea id="body" rows="3">A model citizen is supposedly exemplary, but in hacker culture that means questioning rules rather than following them.</textarea>
+    <div class="row">
+      <div><label for="tag">Filled label</label><input type="text" id="tag" value="A LOUD HEADER!"></div>
+      <div><label for="tag2">Outline label</label><input type="text" id="tag2" value="a quiet header"></div>
+    </div>
+    <label for="footer">Footer</label>
+    <input type="text" id="footer" value="40C3 · MODEL_CITIZENS">
+    <div class="hint">Press Enter for a new line. Empty fields are hidden.</div>
+  </details>
+
+  <details open id="secElements"><summary>Elements</summary>
+    <div class="hint">Untick to hide. <b>Drag any element on the preview to move it</b>; arrow keys nudge the selected one, double-click puts it back.</div>
+    <div class="checks" id="elList"></div>
+    <div class="row" style="margin-top:6px"><button type="button" class="btn" id="resetPos">Reset positions</button><button type="button" class="btn" id="showAll">Show all</button></div>
+  </details>
+
+  <details id="secType"><summary>Typography</summary>
+    <div class="row">
+      <div><label for="tfont">Title font</label>
+        <select id="tfont"><option value="jersey">Jersey 10 (pixel)</option><option value="hackb">Hack Bold</option><option value="hack">Hack Regular</option></select></div>
+      <div><label for="align">Alignment</label>
+        <select id="align"><option value="left">Left</option><option value="center">Center</option></select></div>
+    </div>
+    <div class="checks">
+      <label class="check"><input type="checkbox" id="caps"> TITLE IN CAPS</label>
+      <label class="check"><input type="checkbox" id="underline" checked> Underline subtitle</label>
+    </div>
+    <label for="tsize">Title size</label><input type="range" id="tsize" min="30" max="130" value="100">
+    <label for="tspace">Title letter spacing</label><input type="range" id="tspace" min="-6" max="30" value="0">
+    <label for="bsize">Body size</label><input type="range" id="bsize" min="50" max="160" value="100">
+  </details>
+
+  <details open id="secColors"><summary>Colors</summary>
+    <div class="swatches" id="themes"></div>
+    <div class="colors">
+      <label>Background <input type="color" id="cBg"></label>
+      <label>Text <input type="color" id="cInk"></label>
+      <label>Accent <input type="color" id="cAcc"></label>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button type="button" class="btn" id="swapCol">Swap bg / text</button>
+      <button type="button" class="btn" id="randCol">Random mix</button>
+    </div>
+    <div class="hint">The first 8 palettes come from the official style guide.</div>
+  </details>
+
+  <details id="secLogo"><summary>Logo</summary>
+    <div class="row">
+      <div><label for="logo">Logo</label>
+        <select id="logo"><option value="icon">Official logo</option><option value="text">Logo + MODEL_CITIZENS</option><option value="custom">My logo (Logo maker)</option><option value="none">None</option></select></div>
+      <div><label for="logoCol">Logo color</label>
+        <select id="logoCol"><option value="ink">Text color</option><option value="acc">Accent color</option></select></div>
+    </div>
+    <label for="lsize">Logo size</label><input type="range" id="lsize" min="50" max="170" value="100">
+  </details>
+
+  <details id="secBg"><summary>Background &amp; frame</summary>
+    <div class="row">
+      <div><label for="pattern">Pattern</label><select id="pattern"></select></div>
+      <div><label for="texture">Texture</label>
+        <select id="texture"><option value="">None</option><option value="grid">Grid</option><option value="dots">Dots</option><option value="lines">Scanlines</option><option value="zeros">0x zeros</option></select></div>
+    </div>
+    <div class="row">
+      <div><label for="popac">Pattern opacity</label><input type="range" id="popac" min="5" max="100" value="16"></div>
+      <div><label for="pscale">Pattern scale</label><input type="range" id="pscale" min="40" max="250" value="100"></div>
+    </div>
+    <label for="frame">Frame</label>
+    <select id="frame"><option value="">None</option><option value="border">Border</option><option value="double">Double border</option><option value="corners">Corner marks</option><option value="ruler">Ruler ticks</option></select>
+  </details>
+
+  <details id="secDeco"><summary>Decorations</summary>
+    <div class="row" style="margin-bottom:6px">
+      <select id="decoCat" aria-label="Decoration category"></select>
+      <button type="button" class="btn" id="shuffle" style="flex:0 0 auto">Shuffle</button>
+      <button type="button" class="btn" id="clearDeco" style="flex:0 0 auto">Clear</button>
+    </div>
+    <div class="decos" id="decos"></div>
+    <div class="hint">Click to (un)select. <span id="decoCount"></span></div>
+    <div class="row">
+      <div><label for="dcount">Max. shown</label><input type="range" id="dcount" min="0" max="8" value="6"></div>
+      <div><label for="dsize">Size</label><input type="range" id="dsize" min="50" max="150" value="100"></div>
+    </div>
+    <div class="row">
+      <div><label for="dtint">Coloring</label>
+        <select id="dtint"><option value="auto">Two-tone (auto)</option><option value="acc">Accent only</option><option value="ink">Text color only</option></select></div>
+      <div><label for="upload">Your image</label><input type="file" id="upload" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"></div>
+    </div>
+    <div class="hint">Uploaded images stay on your computer and appear first in the decoration list.</div>
+  </details>
+
+  <details id="secMotion"><summary>Motion (GIF / video)</summary>
+    <div class="checks" id="fxList">
+      <label class="check"><input type="checkbox" data-fx="type"> Typewriter</label>
+      <label class="check"><input type="checkbox" data-fx="float"> Floating decos</label>
+      <label class="check"><input type="checkbox" data-fx="scroll"> Scrolling pattern</label>
+      <label class="check"><input type="checkbox" data-fx="glitch"> Glitch</label>
+      <label class="check"><input type="checkbox" data-fx="cycle"> Palette cycle</label>
+      <label class="check"><input type="checkbox" data-fx="crt"> CRT scanlines</label>
+      <label class="check"><input type="checkbox" data-fx="pulse"> Pulsing logo</label>
+      <label class="check"><input type="checkbox" data-fx="blink"> Blinking labels</label>
+    </div>
+    <div class="row">
+      <div><label for="dur">Duration: <b id="durV">3</b> s</label><input type="range" id="dur" min="1" max="10" step="0.5" value="3"></div>
+      <div><label for="fps">Frames / s</label><select id="fps"><option>10</option><option selected>15</option><option>20</option><option>25</option><option>30</option></select></div>
+    </div>
+    <div class="row">
+      <div><label for="gscale">GIF size</label><select id="gscale"><option value="1">100 %</option><option value="0.75">75 %</option><option value="0.5" selected>50 %</option><option value="0.33">33 %</option></select></div>
+      <div><button type="button" class="btn" id="play" style="width:100%">▶ Preview</button></div>
+    </div>
+    <div class="hint">Tick at least one effect, then use “Export GIF” or “Export video”.</div>
+  </details>
+
+  <details id="secSettings"><summary>Settings</summary>
+    <div class="hint">Your settings are saved automatically in this browser.</div>
+    <div class="row" style="margin-top:8px">
+      <button type="button" class="btn" id="saveJson">Save preset file</button>
+      <button type="button" class="btn" id="loadJsonBtn">Load preset file</button>
+    </div>
+    <input type="file" id="loadJson" accept=".json,application/json" hidden>
+    <div class="row" style="margin-top:8px"><button type="button" class="btn" id="reset">Reset everything</button></div>
+  </details>
+  <p class="credits">Unofficial fan tool. 40C3 style guide, logos and assets by the 40C3 design team. Fonts: Jersey 10 (OFL), Hack (MIT). Everything runs in your browser; nothing is uploaded.</p>
+</aside>
+
+<section class="stage" aria-label="Preview">
+  <canvas id="cv" width="1920" height="1080" tabindex="0" role="img" aria-label="Preview of the generated visual"></canvas>
+  <div class="actions">
+    <button type="button" class="btn main" id="dl">Download PNG</button>
+    <button type="button" class="btn" id="dljpg">JPG</button>
+    <button type="button" class="btn" id="copy">Copy image</button>
+    <button type="button" class="btn main" id="gif">Export GIF</button>
+    <button type="button" class="btn" id="video">Export video</button>
+    <button type="button" class="btn" id="random">Surprise me</button>
+  </div>
+  <div class="bar" id="bar"><i></i></div>
+  <div class="dim" id="info" aria-live="polite"></div>
+</section>
+</main>
+<noscript><p style="padding:20px">This generator needs JavaScript.</p></noscript>
+<script src="assets/gifenc.js?v=__V__" defer></script>
+<script src="assets/app.js?v=__V__" defer></script>
+</body>
+</html>
