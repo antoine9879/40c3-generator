@@ -1,0 +1,14 @@
+{
+  "name": "40C3 Visual Generator",
+  "short_name": "40C3 Visuals",
+  "description": "Make 40C3 “Model Citizens” visuals, logos, GIFs and videos in your browser.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#001300",
+  "theme_color": "#001300",
+  "icons": [
+    {"src": "favicon.svg", "sizes": "any", "type": "image/svg+xml"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png"}
+  ]
+}
